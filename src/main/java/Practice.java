@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.IOException;
+import java.net.Inet4Address;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -146,14 +147,28 @@ public class Practice {
      * @return
      */
     public static Map<String, Integer> wordCount(String input) {
-        //首先分割出单词
+        //首先分割出单词，\W表示[a-zA-Z_0-9]以外的字符
+        String[] words = input.split("\\W+");
+
+        //使用Map来存储每个单词的出现次数
+        Map<String, Integer> wordCountMap = new HashMap<>();
+
+        for (String word : words) {
+            //读取该单词之前出现的次数
+            int lastCount = wordCountMap.getOrDefault(word, 0);
+            wordCountMap.put(word, lastCount + 1);
+        }
+
+        return wordCountMap;
+/*        // 使用Java 8的Stream来实现
+        //首先分割出单词，\W表示[a-zA-Z_0-9]以外的字符
         String[] words = input.split("\\W+");
         List<String> wordList = Arrays.asList(words);
         Map<String, Integer> wordCountMap = wordList.stream().collect(
                 Collectors.groupingBy(Function.identity(), Collectors.reducing(0, e -> 1, Integer::sum)
                 )
         );
-        return wordCountMap;
+        return wordCountMap;*/
     }
 
 
@@ -166,10 +181,24 @@ public class Practice {
      * @throws IOException
      */
     public static Map<String, Integer> wordCount(Path path, Charset charset) throws IOException {
+        Map<String, Integer> wordCountMap = new HashMap<>();
+
+        // 首先把文本按行读取
+        List<String> lines = Files.readAllLines(path, charset);
+        // 对每行统计单词
+        for (String line : lines) {
+            String[] words = line.split("\\W+");
+            for (String word : words) {
+                int lastCount = wordCountMap.getOrDefault(word, 0);
+                wordCountMap.put(word, lastCount + 1);
+            }
+        }
+        return wordCountMap;
+/*        // 使用Java 8 Stream来实现
         Map<String, Integer> wordCountMap = Files.readAllLines(path, charset).stream().
                 flatMap(line -> Arrays.stream(line.split("\\W+"))).
                 map(word -> new AbstractMap.SimpleEntry<>(word, 1)).
                 collect(toMap(e -> e.getKey(), e -> e.getValue(), (v1, v2) -> v1 + v2));
-        return wordCountMap;
+        return wordCountMap;*/
     }
 }
