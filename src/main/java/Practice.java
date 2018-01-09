@@ -1,21 +1,22 @@
+import javax.swing.*;
+import javax.swing.border.EtchedBorder;
+import java.awt.*;
+import java.awt.event.ActionEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.Inet4Address;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.*;
+import java.util.List;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toMap;
 
 public class Practice {
-    public static void main(String[] args) {
-        System.out.println(latinPig("banana"));
-
-
-    }
 
     /**
      * 逆转字符串——输入一个字符串，将其逆转并输出。
@@ -201,4 +202,28 @@ public class Practice {
                 collect(toMap(e -> e.getKey(), e -> e.getValue(), (v1, v2) -> v1 + v2));
         return wordCountMap;*/
     }
+
+    /**
+     * 文本编辑器——记事本类型的应用，可以打开、编辑、保存文本文档。
+     * 需要指定文件编码
+     *
+     * @param path    文本路径
+     * @param charset 编码
+     * @throws IOException
+     */
+    public static void editor(String path, Charset charset) throws IOException {
+        new Editor(path, charset);
+    }
+
+    /**
+     * 文本编辑器——记事本类型的应用，可以打开、编辑、保存文本文档。
+     * 采用系统编码打开
+     *
+     * @param path 文本路径
+     * @throws IOException
+     */
+    public static void editor(String path) throws IOException {
+        new Editor(path);
+    }
+
 }
