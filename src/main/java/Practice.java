@@ -212,7 +212,7 @@ public class Practice {
      * @throws IOException
      */
     public static void editor(String path, Charset charset) throws IOException {
-        new Editor(path, charset);
+        new Editor(path, charset).show();
     }
 
     /**
@@ -223,7 +223,7 @@ public class Practice {
      * @throws IOException
      */
     public static void editor(String path) throws IOException {
-        new Editor(path);
+        new Editor(path).show();
     }
 
 }

@@ -96,13 +96,9 @@ public class Editor {
     }
 
     public void showText() throws IOException {
-        List<String> lines = Files.readAllLines(path, charset);
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String line : lines) {
-            stringBuilder.append(line);
-            stringBuilder.append("\n");
-        }
-        jTextArea.setText(stringBuilder.toString());
+        byte[] encoded = Files.readAllBytes(path);
+        String content = new String(encoded, charset);
+        jTextArea.setText(content);
     }
 
     class EditListener implements ActionListener {
@@ -134,7 +130,7 @@ public class Editor {
         public void saveFile() throws IOException {
             System.out.println("正在保存文件");
             String text = this.jTextArea.getText();
-            Files.write(path, Arrays.asList(text), charset);
+            Files.write(path, text.getBytes(charset));
         }
     }
 
