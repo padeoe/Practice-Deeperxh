@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -14,7 +15,7 @@ import java.util.List;
  * 创建后调用show()方法来显示文本编辑器界面。
  */
 public class Editor {
-    JMenuItem save, cut, copy, paste, selectAll;
+    JMenuItem open, save, cut, copy, paste, selectAll;
     Path path;
     Charset charset;
     JTextArea jTextArea;
@@ -53,6 +54,7 @@ public class Editor {
 
     public void initJframe() throws IOException {
         jFrame.setTitle(this.path.getFileName().toString());
+        open = new JMenuItem("打开");
         save = new JMenuItem("保存");
         cut = new JMenuItem("剪切");
         copy = new JMenuItem("复制");
@@ -65,6 +67,7 @@ public class Editor {
 
         EditListener editListener = new EditListener(jTextArea);
         JMenu file, edit;
+        open.addActionListener(editListener);
         save.addActionListener(editListener);
         save.setAccelerator(KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S,
                 java.awt.Event.CTRL_MASK));
@@ -75,9 +78,11 @@ public class Editor {
         selectAll.addActionListener(editListener);
 
         JMenuBar menuBar = new JMenuBar();
+       // UIManager.put("Menu.font", new Font("微软雅黑", Font.PLAIN, 15));
         file = new JMenu("文件");
         edit = new JMenu("编辑");
 
+        file.add(open);
         file.add(save);
         edit.add(cut);
         edit.add(copy);
@@ -121,6 +126,18 @@ public class Editor {
             if (e.getSource() == save) {
                 try {
                     saveFile();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+            }
+            if (e.getSource() == open) {
+                JFileChooser jfc = new JFileChooser();
+                jfc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+                jfc.showDialog(new JLabel(), "选择文件");
+                File file = jfc.getSelectedFile();
+                path = file.toPath();
+                try {
+                    showText();
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
