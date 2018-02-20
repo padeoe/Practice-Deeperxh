@@ -78,7 +78,7 @@ class PracticeTest {
 
     @Test
     void wordCount1() throws IOException {
-        Map<String, Integer> wordCountMap = Practice.wordCount(Paths.get("src/test/java/input.txt"), StandardCharsets.UTF_8);
+        Map<String, Integer> wordCountMap = Practice.wordCount(Paths.get("src/test/resources/input.txt"), StandardCharsets.UTF_8);
         System.out.println(wordCountMap);
         Map<String, Integer> expectedMap = new HashMap<>();
         expectedMap.put("hello", 4);

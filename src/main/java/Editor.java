@@ -78,7 +78,7 @@ public class Editor {
         selectAll.addActionListener(editListener);
 
         JMenuBar menuBar = new JMenuBar();
-       // UIManager.put("Menu.font", new Font("微软雅黑", Font.PLAIN, 15));
+        UIManager.put("Menu.font", new Font("微软雅黑", Font.PLAIN, 15));
         file = new JMenu("文件");
         edit = new JMenu("编辑");
 
